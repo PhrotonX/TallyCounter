@@ -1,11 +1,30 @@
 #include <windows.h>
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <tchar.h>
 #include "resource.h"
 const char g_szClassName[] = "windowClass";
 
 int tally[5] = {0, 0, 0, 0, 0};
+int index = 0;
+std::string tally_buffer[5] = {"", "", "", "", ""};
+
+void countValue(HWND hwnd, int htally){
+    //Set window focus to edit box
+    SetFocus(hwnd);
+
+    //Clear edit box contents
+    SetWindowText(hwnd, "");
+
+    //Convert int to string
+    tally_buffer[0] = std::__cxx11::to_string(htally);
+
+    //Insert tally string
+    index = GetWindowTextLength(hwnd);
+    SendMessage(hwnd, EM_SETSEL, (WPARAM)index, (LPARAM)index);
+    SendMessage(hwnd, EM_REPLACESEL, 0, (LPARAM)tally_buffer[0].c_str());
+}
 
 INT_PTR AboutProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
     switch(msg){
@@ -13,17 +32,10 @@ INT_PTR AboutProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
             EndDialog(hwnd, 0);
             break;
         case WM_INITDIALOG:
+            MessageBox(hwnd, "TallyCounter v0.1.0.0 Build 39" , "Temporary About Message Box", MB_OK | MB_ICONINFORMATION);
             break;
         case WM_COMMAND:
             switch(LOWORD(wParam)){
-                case ID_C1_INS:
-                    tally[0]++;
-                    HWND hEdit_tally_1 = GetDlgItem(hwnd, IDC_C1_EDIT);
-                    std::__cxx11::string str_tally_1 = std::__cxx11::to_string(tally[0]);
-                    char const *char_tally_1 = str_tally_1.c_str();
-                    TCHAR*pszTally1 = char_tally_1;
-                    SendMessage(hEdit_tally_1, EM_REPLACESEL, 0, (LPARAM)pszTally1);
-                    break;
                 case ID_ABOUT_OK:
                     EndDialog(hwnd, 0);
                     break;
@@ -36,15 +48,66 @@ INT_PTR AboutProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
 }
 
 INT_PTR DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
+    //Edit box
+    HWND hEdit_tally[5] = {NULL, NULL, NULL, NULL, NULL};
+
+    hEdit_tally[0] = GetDlgItem(hwnd, IDC_C1_EDIT);
+    hEdit_tally[1] = GetDlgItem(hwnd, IDC_C2_EDIT);
+    hEdit_tally[2] = GetDlgItem(hwnd, IDC_C3_EDIT);
+    hEdit_tally[3] = GetDlgItem(hwnd, IDC_C4_EDIT);
+    hEdit_tally[4] = GetDlgItem(hwnd, IDC_C5_EDIT);
+
+
     switch(msg){
         case WM_CLOSE:
             ShowWindow(GetConsoleWindow(), SW_SHOW);
             EndDialog(hwnd, 0);
             break;
         case WM_INITDIALOG:
+            std::cout << "Build No: " << BUILD << std::endl;
             break;
         case WM_COMMAND:
             switch(LOWORD(wParam)){
+                case ID_C1_INS:
+                    tally[0]++;
+                    countValue(hEdit_tally[0], tally[0]);
+                    break;
+                case ID_C1_DEL:
+                    tally[0]--;
+                    countValue(hEdit_tally[0], tally[0]);
+                    break;
+                case ID_C2_INS:
+                    tally[1]++;
+                    countValue(hEdit_tally[1], tally[1]);
+                    break;
+                case ID_C2_DEL:
+                    tally[1]--;
+                    countValue(hEdit_tally[1], tally[1]);
+                    break;
+                case ID_C3_INS:
+                    tally[2]++;
+                    countValue(hEdit_tally[2], tally[2]);
+                    break;
+                case ID_C3_DEL:
+                    tally[2]--;
+                    countValue(hEdit_tally[2], tally[2]);
+                    break;
+                case ID_C4_INS:
+                    tally[3]++;
+                    countValue(hEdit_tally[3], tally[3]);
+                    break;
+                case ID_C4_DEL:
+                    tally[3]--;
+                    countValue(hEdit_tally[3], tally[3]);
+                    break;
+                case ID_C5_INS:
+                    tally[4]++;
+                    countValue(hEdit_tally[4], tally[4]);
+                    break;
+                case ID_C5_DEL:
+                    tally[4]--;
+                    countValue(hEdit_tally[4], tally[4]);
+                    break;
                 case ID_ABOUT:
                     DialogBox(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG2), NULL, AboutProc);
                     break;
@@ -62,6 +125,6 @@ INT_PTR DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-    ShowWindow(GetConsoleWindow(), SW_HIDE);
+    //ShowWindow(GetConsoleWindow(), SW_HIDE);
     return DialogBox(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), NULL, DlgProc);
 }
