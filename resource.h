@@ -6,7 +6,7 @@
 #define VER_MINOR   1
 #define VER_REV     0
 #define VER_DEV     0
-#define BUILD       39
+#define BUILD       41
 
 #define IDD_DIALOG1                             100
 #define IDD_DIALOG2                             101

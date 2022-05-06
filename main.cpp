@@ -7,8 +7,7 @@
 const char g_szClassName[] = "windowClass";
 
 int tally[5] = {0, 0, 0, 0, 0};
-int index = 0;
-std::string tally_buffer[5] = {"", "", "", "", ""};
+std::string tally_buffer = "";
 
 void countValue(HWND hwnd, int htally){
     //Set window focus to edit box
@@ -18,27 +17,26 @@ void countValue(HWND hwnd, int htally){
     SetWindowText(hwnd, "");
 
     //Convert int to string
-    tally_buffer[0] = std::__cxx11::to_string(htally);
+    tally_buffer = std::__cxx11::to_string(htally);
 
     //Insert tally string
-    index = GetWindowTextLength(hwnd);
-    SendMessage(hwnd, EM_SETSEL, (WPARAM)index, (LPARAM)index);
-    SendMessage(hwnd, EM_REPLACESEL, 0, (LPARAM)tally_buffer[0].c_str());
+    SendMessage(hwnd, EM_SETSEL, (WPARAM)GetWindowTextLength(hwnd), (LPARAM)GetWindowTextLength(hwnd));
+    SendMessage(hwnd, EM_REPLACESEL, 0, (LPARAM)tally_buffer.c_str());
 }
 
 INT_PTR AboutProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
     switch(msg){
-        case WM_CLOSE:
+    case WM_CLOSE:
+        EndDialog(hwnd, 0);
+        break;
+    case WM_INITDIALOG:
+        MessageBox(hwnd, "TallyCounter v0.1.0.0 Build 41" , "Temporary About Message Box", MB_OK | MB_ICONINFORMATION);
+        break;
+    case WM_COMMAND:
+        switch(LOWORD(wParam)){
+        case ID_ABOUT_OK:
             EndDialog(hwnd, 0);
             break;
-        case WM_INITDIALOG:
-            MessageBox(hwnd, "TallyCounter v0.1.0.0 Build 39" , "Temporary About Message Box", MB_OK | MB_ICONINFORMATION);
-            break;
-        case WM_COMMAND:
-            switch(LOWORD(wParam)){
-                case ID_ABOUT_OK:
-                    EndDialog(hwnd, 0);
-                    break;
             }
             break;
         default:
@@ -56,7 +54,6 @@ INT_PTR DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
     hEdit_tally[2] = GetDlgItem(hwnd, IDC_C3_EDIT);
     hEdit_tally[3] = GetDlgItem(hwnd, IDC_C4_EDIT);
     hEdit_tally[4] = GetDlgItem(hwnd, IDC_C5_EDIT);
-
 
     switch(msg){
         case WM_CLOSE:
