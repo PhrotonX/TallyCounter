@@ -5,11 +5,12 @@
 #define VER_MAJOR   0
 #define VER_MINOR   1
 #define VER_REV     0
-#define VER_DEV     0
-#define BUILD       41
+#define VER_DEV     1
+#define BUILD       63
 
 #define IDD_DIALOG1                             100
 #define IDD_DIALOG2                             101
+#define IDD_DIALOG3                             102
 #define ID_SAVE                                 40000
 #define ID_ABOUT_OK                             40001
 #define ID_EDIT                                 40002
@@ -39,3 +40,18 @@
 #define IDC_C4_EDIT                             40026
 #define IDC_C5_EDIT                             40027
 #define IDG_TALLY_COUNTER                       40028
+#define IDS_ABOUT                               40029
+#define ID_ABOUT_DEBUG                          40030
+#define ID_EDITBOX_CANCEL                       40031
+#define ID_OPEN                                 40032
+#define IDC_EDITBOX_C1_EDIT                     40033
+#define IDS_EDITBOX_C2                          40034
+#define IDC_EDITBOX_C2_EDIT                     40035
+#define IDS_EDITBOX_C3                          40036
+#define IDS_EDITBOX_C1                          40037
+#define IDC_EDITBOX_C3_EDIT                     40038
+#define IDS_EDITBOX_C4                          40039
+#define IDC_EDITBOX_C4_EDIT                     40040
+#define IDS_EDITBOX_C5                          40041
+#define IDC_EDITBOX_C5_EDIT                     40042
+#define ID_EDITBOX_OK                           40043

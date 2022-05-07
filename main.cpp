@@ -7,7 +7,11 @@
 const char g_szClassName[] = "windowClass";
 
 int tally[5] = {0, 0, 0, 0, 0};
+//char aboutText[0xFFF];
 std::string tally_buffer = "";
+std::stringstream aboutStringSS("Tally Counter\nVersion ", std::ios_base::app | std::ios_base::out | std::ios_base::trunc);
+std::string aboutString;
+const char* aboutText;
 
 void countValue(HWND hwnd, int htally){
     //Set window focus to edit box
@@ -30,17 +34,37 @@ INT_PTR AboutProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
         EndDialog(hwnd, 0);
         break;
     case WM_INITDIALOG:
-        MessageBox(hwnd, "TallyCounter v0.1.0.0 Build 41" , "Temporary About Message Box", MB_OK | MB_ICONINFORMATION);
+        SetDlgItemText(hwnd, IDS_ABOUT, aboutText);
         break;
     case WM_COMMAND:
         switch(LOWORD(wParam)){
         case ID_ABOUT_OK:
             EndDialog(hwnd, 0);
             break;
-            }
-            break;
+        }
+        break;
         default:
             return FALSE;
+    }
+    return TRUE;
+}
+
+INT_PTR EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
+    switch(msg){
+    case WM_CLOSE:
+        EndDialog(hwnd, 0);
+        break;
+    case WM_INITDIALOG:
+        break;
+    case WM_COMMAND:
+        switch(LOWORD(lParam)){
+        case ID_CLOSE:
+            EndDialog(hwnd, 0);
+            break;
+        }
+        break;
+    default:
+        return FALSE;
     }
     return TRUE;
 }
@@ -61,7 +85,16 @@ INT_PTR DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
             EndDialog(hwnd, 0);
             break;
         case WM_INITDIALOG:
+            //Set strings for about dialog box
+            aboutStringSS << VER_MAJOR << "." << VER_MINOR << "." << VER_REV << "." << VER_DEV << " build " << BUILD << "\n"
+            << "Developer: Phroton\nAlpha Development Phase 1\nFor more info, click the debug button.";
+            aboutString = aboutStringSS.str();
+            aboutText = aboutString.c_str();
+
+            //Set debug info on console window
+            std::cout << "Version: " << VER_MAJOR << "." << VER_MINOR << "." << VER_REV << "." << VER_DEV << std::endl;
             std::cout << "Build No: " << BUILD << std::endl;
+            std::cout << "Compiled: " << __DATE__ << ", " << __TIME__ << std::endl;
             break;
         case WM_COMMAND:
             switch(LOWORD(wParam)){
@@ -104,6 +137,9 @@ INT_PTR DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
                 case ID_C5_DEL:
                     tally[4]--;
                     countValue(hEdit_tally[4], tally[4]);
+                    break;
+                case ID_EDIT:
+                    DialogBox(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG3), NULL, EditProc);
                     break;
                 case ID_ABOUT:
                     DialogBox(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG2), NULL, AboutProc);
