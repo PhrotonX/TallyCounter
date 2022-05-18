@@ -4,7 +4,10 @@ Created on: 2022 March 21, 18:31:24, Monday
 Compiled on: 2022 May 7, 15:55:07, Saturday
 
 Version 0.1.0.2 alpha build - 
--Added functionality to "Cancel" button in Edit dialog box.
+-Added functionality to "Cancel" button in edit dialog box.
+-Added functionality to "View Repo" button in about dialog box.
+-Added functionality to "Update" button in about dialog box.
+
 Version 0.1.0.1 alpha build 63 - 2022 May 7, 15:55:07, Saturday
 -Minor code improvements.
 -Edit controls can no longer be overwritten.
