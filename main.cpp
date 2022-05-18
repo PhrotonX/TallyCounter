@@ -57,11 +57,13 @@ INT_PTR EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
     case WM_INITDIALOG:
         break;
     case WM_COMMAND:
-        switch(LOWORD(lParam)){
+        switch(LOWORD(wParam)){
         case ID_CLOSE:
+        case ID_EDITBOX_CANCEL:
             EndDialog(hwnd, 0);
             break;
         }
+
         break;
     default:
         return FALSE;
