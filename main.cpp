@@ -13,6 +13,9 @@ std::stringstream aboutStringSS("Tally Counter\nVersion ", std::ios_base::app | 
 std::string aboutString;
 const char* aboutText;
 
+char linkUpdate[0xffd] = "https://github.com/PhrotonX/TallyCounter/releases";
+char linkRepo[0xffe] = "https://github.com/PhrotonX/TallyCounter";
+
 void countValue(HWND hwnd, int htally){
     //Set window focus to edit box
     SetFocus(hwnd);
@@ -41,7 +44,16 @@ INT_PTR AboutProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
         case ID_ABOUT_OK:
             EndDialog(hwnd, 0);
             break;
+        case ID_ABOUT_UPDATE:
+            ShellExecute(NULL, "open", linkUpdate, NULL, NULL, SW_SHOWNORMAL);
+            EndDialog(hwnd, ID_ABOUT_UPDATE);
+            break;
+        case ID_ABOUT_VIEW_REPO:
+            ShellExecute(NULL, "open", linkRepo, NULL, NULL, SW_SHOWNORMAL);
+            EndDialog(hwnd, ID_ABOUT_VIEW_REPO);
+            break;
         }
+
         break;
         default:
             return FALSE;
@@ -57,11 +69,13 @@ INT_PTR EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
     case WM_INITDIALOG:
         break;
     case WM_COMMAND:
-        switch(LOWORD(lParam)){
+        switch(LOWORD(wParam)){
         case ID_CLOSE:
+        case ID_EDITBOX_CANCEL:
             EndDialog(hwnd, 0);
             break;
         }
+
         break;
     default:
         return FALSE;
