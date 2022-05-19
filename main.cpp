@@ -62,11 +62,22 @@ INT_PTR AboutProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
 }
 
 INT_PTR EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
+    HWND hEdit_tally[5] = {NULL, NULL, NULL, NULL, NULL};
+
+    hEdit_tally[0] = GetDlgItem(hwnd, IDC_EDITBOX_C1_EDIT);
+    hEdit_tally[1] = GetDlgItem(hwnd, IDC_EDITBOX_C2_EDIT);
+    hEdit_tally[2] = GetDlgItem(hwnd, IDC_EDITBOX_C3_EDIT);
+    hEdit_tally[3] = GetDlgItem(hwnd, IDC_EDITBOX_C4_EDIT);
+    hEdit_tally[4] = GetDlgItem(hwnd, IDC_EDITBOX_C5_EDIT);
+
     switch(msg){
     case WM_CLOSE:
         EndDialog(hwnd, 0);
         break;
     case WM_INITDIALOG:
+        for(int i = 0; i < 5; i++){
+            countValue(hEdit_tally[i], tally[i]);
+        }
         break;
     case WM_COMMAND:
         switch(LOWORD(wParam)){
