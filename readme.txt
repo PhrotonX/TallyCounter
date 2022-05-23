@@ -7,6 +7,7 @@ Version 0.1.0.2 alpha build -
 -Added functionality to "Cancel" button in edit dialog box.
 -Added functionality to "View Repo" button in about dialog box.
 -Added functionality to "Update" button in about dialog box.
+-Edit box dialog can now display values to all edit boxes.
 
 Version 0.1.0.1 alpha build 63 - 2022 May 7, 15:55:07, Saturday
 -Minor code improvements.

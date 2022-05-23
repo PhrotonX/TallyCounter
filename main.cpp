@@ -29,6 +29,7 @@ void countValue(HWND hwnd, int htally){
     //Insert tally string
     SendMessage(hwnd, EM_SETSEL, (WPARAM)GetWindowTextLength(hwnd), (LPARAM)GetWindowTextLength(hwnd));
     SendMessage(hwnd, EM_REPLACESEL, 0, (LPARAM)tally_buffer.c_str());
+    UpdateWindow(hwnd);
 }
 
 INT_PTR AboutProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
@@ -75,12 +76,25 @@ INT_PTR EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
         EndDialog(hwnd, 0);
         break;
     case WM_INITDIALOG:
+        //Set Edit box values inside edit dialog box
         for(int i = 0; i < 5; i++){
             countValue(hEdit_tally[i], tally[i]);
         }
         break;
     case WM_COMMAND:
         switch(LOWORD(wParam)){
+        case ID_EDITBOX_OK:
+            tally[0] = GetDlgItemInt(hwnd, IDC_EDITBOX_C1_EDIT, NULL, TRUE);
+            tally[1] = GetDlgItemInt(hwnd, IDC_EDITBOX_C2_EDIT, NULL, TRUE);
+            tally[2] = GetDlgItemInt(hwnd, IDC_EDITBOX_C3_EDIT, NULL, TRUE);
+            tally[3] = GetDlgItemInt(hwnd, IDC_EDITBOX_C4_EDIT, NULL, TRUE);
+            tally[4] = GetDlgItemInt(hwnd, IDC_EDITBOX_C5_EDIT, NULL, TRUE);
+
+            countValue(GetDlgItem(hwnd, IDC_C1_EDIT), tally[0]);
+            countValue(GetDlgItem(hwnd, IDC_C2_EDIT), tally[1]);
+            countValue(GetDlgItem(hwnd, IDC_C3_EDIT), tally[2]);
+            countValue(GetDlgItem(hwnd, IDC_C4_EDIT), tally[3]);
+            countValue(GetDlgItem(hwnd, IDC_C5_EDIT), tally[4]);
         case ID_CLOSE:
         case ID_EDITBOX_CANCEL:
             EndDialog(hwnd, 0);
